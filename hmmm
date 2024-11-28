@@ -222,56 +222,96 @@ local function StopAnim()
 end
 local MarketplaceService = game:GetService("MarketplaceService")
 local executorName = identifyexecutor()
--- Fetch the game name
+
 local gameName = MarketplaceService:GetProductInfo(game.PlaceId).Name
 print("Game Name: " .. gameName)
 
--- Load OrionLib and create the window with the game name
+setclipboard("https://discord.com/users/537237115365490688")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = game.CoreGui
+
+local background = Instance.new("Frame")
+background.Size = UDim2.new(1, 0, 1, 0)
+background.BackgroundColor3 = Color3.fromRGB(12, 20, 28)
+background.Parent = screenGui
+
+local imageLabel = Instance.new("ImageLabel")
+imageLabel.Size = UDim2.new(0.3, 0, 0.3, 0) -- Adjust size as needed
+imageLabel.Position = UDim2.new(0.35, 0, 0.1, 0) -- Centered near the top
+imageLabel.Image = "rbxassetid://126133429358591" -- Replace with your image ID
+imageLabel.BackgroundTransparency = 1
+imageLabel.Parent = background
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, 0, 0.5, 0)
+textLabel.Position = UDim2.new(0, 0, 0.25, 0)
+textLabel.Text = "made by plusgiant"
+textLabel.TextColor3 = Color3.fromRGB(92, 124, 156)
+textLabel.TextScaled = true
+textLabel.Font = Enum.Font.SourceSansBold
+textLabel.BackgroundTransparency = 1
+textLabel.Parent = background
+
+local copiedLabel = Instance.new("TextLabel")
+copiedLabel.Size = UDim2.new(1, 0, 0.1, 0)
+copiedLabel.Position = UDim2.new(0, 0, 0.6, 0)
+copiedLabel.Text = "discord profile copied!"
+copiedLabel.TextColor3 = Color3.fromRGB(92, 124, 156)
+copiedLabel.TextScaled = true
+copiedLabel.Font = Enum.Font.SourceSansBold
+copiedLabel.BackgroundTransparency = 1
+copiedLabel.Parent = background
+
+wait(3)
+
+for i = 1, 50 do
+    local transparency = i / 50
+    background.BackgroundTransparency = transparency
+    imageLabel.ImageTransparency = transparency
+    textLabel.TextTransparency = transparency
+    copiedLabel.TextTransparency = transparency
+    wait(0.05)
+end
+
+screenGui:Destroy()
+
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/rolezeay/librarymod/refs/heads/main/source')))() 
 local Player = game.Players.LocalPlayer
 local Players = game:GetService("Players")
 
--- Function to show a notification using OrionLib
 local function showNotification(title, content)
     OrionLib:MakeNotification({
         Name = title,
         Content = content,
-        Image = "rbxassetid://7733964719", -- Your notification image
+        Image = "rbxassetid://7733964719",
         Time = 5
     })
 end
 
--- Create a new sound instance
 local openingSound = Instance.new("Sound")
-openingSound.SoundId = "rbxassetid://6958727243"  -- Replace with your actual sound asset ID
-openingSound.Volume = 5  -- You can adjust the volume if needed
+openingSound.SoundId = "rbxassetid://6958727243" 
+openingSound.Volume = 5 
 openingSound.PlayOnRemove = false
 openingSound.Looped = false
-openingSound.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") -- Parent to Player's GUI
+openingSound.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui") 
 
--- Function to play the opening sound
 local function playOpeningSound()
     openingSound:Play()
 end
 
--- Assuming this is the part of your script where the GUI opens
+
 playOpeningSound()
 
--- Rest of your GUI code
-
-
--- Player joined event
 Players.PlayerAdded:Connect(function(player)
     showNotification("Oyuncu Katıldı", player.Name .. " has joined the game.")
 end)
 
--- Player left event
 Players.PlayerRemoving:Connect(function(player)
     showNotification("Oyuncu Çıktı", player.Name .. " has left the game.")
 end)
 
-
--- Correctly concatenate gameName
 local Window = OrionLib:MakeWindow({
     Name = "NovaLink Modifier - V4 | " .. executorName, -- Removed the extra quotation marks
     HidePremium = false,
